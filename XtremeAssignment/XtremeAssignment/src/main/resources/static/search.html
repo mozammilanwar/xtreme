@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Search</title>
+    <script>
+        function searchCustomers(){
+        const firstName=document.getElementById("firstName").value;
+         const lastName=document.getElementById("lastName").value;
+         fetch('/api/customers/search?firstName=${firstName}&lastName=${lastName}')
+          .then(response=> response.json())
+          .then(data =>{
+          const result=JSON.parse(data);
+          const table= document.getElementById("resultsTable");
+          table.innerHTML="";
+          result.forEach(customer=> {
+          const row =table.insert.Row();
+          row.insertCell(0).textContent=customer.id;
+         row.insertCell(1).textContent=firstName;
+         row.insertCell(2).textContent=lastName;
+         });
+         });
+    }
+    </script>
+</head>
+<body>
+  <h1>Customer Table</h1>
+    <div>
+        <label for="firstName"> First Name: </label>
+        <input type="text" id="firstName">
+
+    </div>
+  <div>
+      <label for="lastName"> Last Name: </label>
+      <input type="text" id="lastName">
+
+  </div>
+<div>
+    <button onclick="searchCustomers()">Search</button>
+</div>
+   <table border="1">
+       <thead>
+       <tr>
+           <th>Customer Id</th>
+           <th> First Name</th>
+           <th> Last Name</th>
+       </tr>
+       </thead>
+       <tbody id="resultsTable"></tbody>
+   </table>
+</body>
+</html>
